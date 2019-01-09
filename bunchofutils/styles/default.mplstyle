@@ -1,0 +1,65 @@
+# Seaborn pastel palette
+#axes.prop_cycle: cycler('color', ['000000', '0059b2', '359bff', 'ff973a', 'ef7a7b', '8bce6f', 'd18cdb', 'babbff', 'dddddd'])
+axes.prop_cycle: cycler('color', ['000000', '005ac1', '3fa0ff', '3eb2a9', 'edc242', 'ed9142', 'cc4141', 'a947b2'])
+
+# legend
+legend.fancybox      : False  # if True, use a rounded box for the
+                              # legend, else a rectangle
+#legend.labelspacing  : 0.35    # the vertical space between the legend entries in fraction of fontsize
+#legend.borderpad     : 0.4    # border whitespace in fontsize units
+#legend.handletextpad : 0.5    # the space between the legend line and legend text in fraction of fontsize
+#legend.borderaxespad : 0.25   # the border between the axes and legend edge in fraction of fontsize
+#legend.shadow        : False
+#legend.frameon       : True   # whether or not to draw a frame around legend
+legend.framealpha     : 0.7    # opacity of legend frame
+legend.edgecolor      : inherit   # legend edge color (when 'inherit' uses axes.edgecolor)
+
+# font
+font.family         : Arial
+font.style          : normal
+font.variant        : normal
+font.weight         : normal
+font.stretch        : normal
+# note that font.size controls default text sizes.  To configure
+# special text sizes tick labels, axes, labels, title, etc, see the rc
+# settings for axes and ticks. Special text sizes can be defined
+# relative to font.size, using the following values: xx-small, x-small,
+# small, medium, large, x-large, xx-large, larger, or smaller
+font.size           : 9
+font.serif     : Times New Roman, Times, DejaVu Serif, New Century Schoolbook, Century Schoolbook L, Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Palatino, Charter, serif
+font.sans-serif: Helvetica, Tahoma, Arial, DejaVu Sans, Lucida Grande, Verdana, Geneva, Lucid, Avant Garde, sans-serif
+font.cursive   : Apple Chancery, Textile, Zapf Chancery, Sand, Script MT, Felipa, cursive
+font.fantasy   : Comic Sans MS, Chicago, Charcoal, ImpactWestern, Humor Sans, fantasy
+font.monospace : DejaVu Sans Mono, Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
+
+
+figure.subplot.left    : 0.15  # the left side of the subplots of the figure
+figure.subplot.right   : 0.95    # the right side of the subplots of the figure
+figure.subplot.top     : 0.92    # the top of the subplots of the figure
+figure.subplot.bottom  : 0.15    # the bottom of the subplots of the figure
+
+
+savefig.dpi         : 300      # figure dots per inch
+savefig.facecolor   : w        # figure facecolor when saving
+savefig.edgecolor   : w        # figure edgecolor when saving
+savefig.format      : png      # png, ps, pdf, svg
+
+grid.color       :   cccccc    ## grid color
+grid.linewidth   :   0.3       ## in points
+
+lines.linewidth   : .8      ## line width in points
+lines.markersize  : 7
+
+#axes.edgecolor      : 444444   ## axes edge color
+#xtick.color         : 444444
+#ytick.color         : 444444
+#text.color          : 444444
+#axes.labelcolor     : 444444
+axes.linewidth      : .6     ## edge linewidth
+xtick.major.width   : .6
+xtick.minor.width   : .4
+ytick.major.width   : .6
+ytick.minor.width   : .4
+
+# no space besides data in x axis
+axes.xmargin        : .0
