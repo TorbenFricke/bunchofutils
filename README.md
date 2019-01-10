@@ -29,4 +29,8 @@ look like.
 ```python
 import bunchofutils
 plt, fig, ax = bunchofutils.plot.ieee_draft()
+plt.plot([1, 3, 5, 2], label="some line")
+bunchofutils.plot.legend() # adjusts legend frame. This did not work using rcparams
+plt.show()
+
 ```
