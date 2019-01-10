@@ -2,9 +2,12 @@ import numpy as np
 import imageio
 
 def make_colormap(seq):
-	"""Return a LinearSegmentedColormap
-	seq: a sequence of floats and RGB-tuples. The floats should be increasing
+	"""
+	Return a LinearSegmentedColormap
+
+	:param seq: a sequence of floats and RGB-tuples. The floats should be increasing
 	and in the interval (0,1).
+	:return:
 	"""
 	import matplotlib.colors as mcolors
 	seq = [(None,) * 3, 0.0] + list(seq) + [1.0, (None,) * 3]
@@ -20,28 +23,38 @@ def make_colormap(seq):
 
 
 def _extract_line_from_image(im):
+	"""
+	Returns a line along the center of the image, along the longer side.
+
+	:param im:
+	:return:
+	"""
 	shape = im.shape
 	if shape[0] < shape[1]:
-		return im[shape[0] // 2, :, :-1]
+		# horizontal screenshot
+		return im[shape[0] // 2, ::-1, :3]
 	else:
-		return im[:, shape[1] // 2, :-1]
-
-def _color_distance(c1, c2):
-	return np.linalg.norm(c1 - c2)
-
-def _almost_white(c):
-	white = np.ones(3) * 255
-	return _color_distance(c, white) < 5
-
-def _almost_black(c):
-	black = np.zeros(3)
-	return _color_distance(c, black) < 5
+		# vertical screenshot
+		return im[:, shape[1] // 2, :3]
 
 def _diff(line):
+	"""
+	Calculates the distance between adjacent pixel. Each pixel is considered as an RGB vector and np.linalg.norm() does
+	the rest
+
+	:param line: array of RGB pixes (0..255)
+	:return:
+	"""
 	vals = np.linalg.norm(line, axis=1)
 	return np.diff(vals)
 
 def _find_start(diff):
+	"""
+	Finds the end of the colorbar. Requires the background outiside the colorbar to be smooth.
+
+	:param diff:
+	:return:
+	"""
 	armed = False
 	for i, d in enumerate(diff):
 		if abs(d) > 100:
@@ -51,20 +64,45 @@ def _find_start(diff):
 	return 0
 
 def _find_end(diff):
-	return len(diff) - _find_start(diff)
+	"""
+	Finds the end of the colorbar. Requires the background outiside the colorbar to be smooth.
+
+	:param diff:
+	:return:
+	"""
+	return len(diff) - _find_start(diff[::-1])
 
 def _read_image(fn):
+	"""
+	Retunrs image data as a np array
+
+	:param fn:
+	:return:
+	"""
 	im = imageio.imread(fn)
 	im = np.array(im)
 	return im
 
 def _trim_line(line, diff):
+	"""
+	Trims non colorbar pixes of a line.
+
+	:param line:
+	:param diff:
+	:return:
+	"""
 	start = _find_start(diff)
 	end = _find_end(diff)
 	line = line[start:end]
 	return line
 
 def _remove_ticks(line):
+	"""
+	Removes tick marks from a line of pixels.
+
+	:param line:
+	:return: relative position as an array of values between 0..1; line without tick marks
+	"""
 	diff = _diff(line)
 	pos = np.linspace(0, 1, len(line))
 	pop = []
@@ -80,11 +118,26 @@ def _remove_ticks(line):
 	return pos, line
 
 def reduce(pos, line, n=20):
+	"""
+	Picks n equidistant points along the arrays pos and line.
+
+	:param pos:
+	:param line:
+	:param n:
+	:return:
+	"""
 	assert len(pos) == len(line)
 	idxs = [int(round(i / (n - 1) * (len(line) - 1))) for i in range(n)]
 	return np.take(pos, idxs), np.take(line, idxs, axis=0)
 
 def _assemble_color_seq(pos, line):
+	"""
+	Assembles a sequence of colordata from an array of reative positions and an array of pixels (RGB 0..255).
+
+	:param pos:
+	:param line:
+	:return:
+	"""
 	seq = []
 	for p, val, i in zip(pos, line, np.arange(len(line))):
 		val = val / 255
@@ -97,6 +150,13 @@ def _assemble_color_seq(pos, line):
 	return seq
 
 def colormap_from_png(fn):
+	"""
+	Turns a screenshot of a colorbar into a matplotlib LinearSegmentedColormap. The screenshot needs to contain some
+	white space around it and the colorbar needs to be roughly centered.
+
+	:param fn: file name of screenshot
+	:return: LinearSegmentedColormap
+	"""
 	im = _read_image(fn)
 	line = _extract_line_from_image(im)
 	line = list(reversed(line))
@@ -105,10 +165,14 @@ def colormap_from_png(fn):
 	pos, line = _remove_ticks(line)
 	pos, line = reduce(pos, line)
 	seq = _assemble_color_seq(pos, line)
-	print(seq)
 	return make_colormap(seq)
 
 def opera():
+	"""
+	Returns the colormap used by Opera Electromagnetic FEA Simulation Software
+
+	:return:
+	"""
 	seq = [(0.3686274509803922, 0.37254901960784315, 1.0), (0.3686274509803922, 0.5333333333333333, 1.0),
 	       0.05172413793103448, (0.3686274509803922, 0.5333333333333333, 1.0),
 	       (0.3686274509803922, 0.6941176470588235, 1.0), 0.10344827586206896,
