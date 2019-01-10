@@ -33,6 +33,6 @@ class PlotTest(unittest.TestCase):
 
 
 	def test_from_jpeg(self):
-		fn = os.path.join(os.path.dirname(__file__), "opera_jpg.png")
+		fn = os.path.join(os.path.dirname(__file__), "opera_horizontal.jpg")
 		cmap = colormap.colormap_from_png(fn)
 		self.some_plot(cmap)
