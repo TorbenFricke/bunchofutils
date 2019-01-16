@@ -86,7 +86,8 @@ def legend(*args, **kwargs):
 	:return:
 	"""
 	alpha = kwargs.pop("alpha", None)
-	leg = plt.gcf().gca().legend(*args, **kwargs)
+	ax = kwargs.pop("ax", plt.gcf().gca())
+	leg = ax.legend(*args, **kwargs)
 	leg.get_frame().set_linewidth(0.6)
 	if alpha:
 		leg.get_frame().set_alpha(alpha)
@@ -94,36 +95,34 @@ def legend(*args, **kwargs):
 
 
 ## plot configurations
-def basic():
-	fig = plt.figure(FigureClass=CustomFigure)
-	ax = fig.add_subplot(111)
-	return plt, fig, ax
+def basic(*args, **kwargs):
+	fig, axes = plt.subplots(*args, FigureClass=CustomFigure, **kwargs)
+	return plt, fig, axes
 
 
-def _ieee():
-	fig = plt.figure(FigureClass=CustomFigure)
+def _ieee(*args, **kwargs):
+	fig, axes = plt.subplots(*args, FigureClass=CustomFigure, **kwargs)
 	fig.subplots_adjust(bottom=0.25)
 	fig.set_ieee_size()
-	ax = fig.add_subplot(111)
-	return plt, fig, ax
+	return plt, fig, axes
 
 
-def ieee(backend="pgf"):
+def ieee(*args, **kwargs):
 	_apply_style("pgf")
-	mpl.use(backend)
-	return _ieee()
+	mpl.use("pgf")
+	return _ieee(*args, **kwargs)
 
 
-def ieee_pdf():
+def ieee_pdf(*args, **kwargs):
 	_apply_style("pgf")
 	set_usetex(True)
-	return _ieee()
+	return _ieee(*args, **kwargs)
 
 
-def ieee_draft():
+def ieee_draft(*args, **kwargs):
 	_apply_style("times")
 	set_usetex(False)
-	return _ieee()
+	return _ieee(*args, **kwargs)
 
 
 def set_colorwheel(val):

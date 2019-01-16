@@ -74,3 +74,13 @@ class PlotTest(unittest.TestCase):
 			s = f.read()
 		assert not r"}\setmainfont{" in s
 
+	def test_subplots_visually(self):
+		plt, fig, ax = plot.basic(2, 1)
+		ax[0].plot([1, 2, 4], label="test")
+		ax[0].set_xlabel("x_label")
+		ax[0].set_ylabel("y_label")
+		ax[0].set_title("ax0 title")
+		ax[1].plot([1, 2, 4], label="test 2")
+		ax[1].set_title("ax1 title")
+		ax[1].set_xlabel("x_label")
+		plt.show()
