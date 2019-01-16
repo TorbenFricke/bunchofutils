@@ -1,0 +1,7 @@
+
+# font
+font.size           : 9
+font.serif          : []
+font.family         : serif
+
+savefig.format      : pgf      # png, ps, pdf, svg
