@@ -3,6 +3,7 @@
 font.serif          : Times New Roman
 font.family         : Times New Roman
 font.weight         : 100
+font.size           : 9
 
 savefig.format      : png      # png, ps, pdf, svg
 

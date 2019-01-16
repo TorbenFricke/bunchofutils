@@ -25,18 +25,19 @@ font.stretch        : normal
 # settings for axes and ticks. Special text sizes can be defined
 # relative to font.size, using the following values: xx-small, x-small,
 # small, medium, large, x-large, xx-large, larger, or smaller
-font.size           : 9
+font.size           : 14
 font.serif     : Times New Roman, Times, DejaVu Serif, New Century Schoolbook, Century Schoolbook L, Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Palatino, Charter, serif
 font.sans-serif: Helvetica, Tahoma, Arial, DejaVu Sans, Lucida Grande, Verdana, Geneva, Lucid, Avant Garde, sans-serif
 font.cursive   : Apple Chancery, Textile, Zapf Chancery, Sand, Script MT, Felipa, cursive
 font.fantasy   : Comic Sans MS, Chicago, Charcoal, ImpactWestern, Humor Sans, fantasy
 font.monospace : DejaVu Sans Mono, Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
 
-
-figure.subplot.left    : 0.15  # the left side of the subplots of the figure
+figure.figsize         : 8, 6    # figure size in inches
+figure.subplot.left    : 0.15    # the left side of the subplots of the figure
 figure.subplot.right   : 0.95    # the right side of the subplots of the figure
 figure.subplot.top     : 0.92    # the top of the subplots of the figure
 figure.subplot.bottom  : 0.15    # the bottom of the subplots of the figure
+figure.subplot.hspace  : 0.3    # the bottom of the subplots of the figure
 
 
 savefig.dpi         : 300      # figure dots per inch
