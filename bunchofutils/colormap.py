@@ -1,5 +1,4 @@
 import numpy as np
-import imageio
 
 def make_colormap(seq):
 	"""
@@ -79,6 +78,7 @@ def _read_image(fn):
 	:param fn:
 	:return:
 	"""
+	import imageio
 	im = imageio.imread(fn)
 	im = np.array(im)
 	return im
