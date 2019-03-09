@@ -9,20 +9,17 @@ class loop_function(object):
 		if not callable(func):
 			raise TypeError("input function not callable")
 		self._func = func
+		self._parent = None
 		self.interval = interval
 
 	def set_parent(self, parent):
-		# turn function into a bound method. See:
-		# https://stackoverflow.com/questions/46897417/convert-a-bound-method-in-python-to-a-function-and-reduce-arg-count/46921516
-		self._func = types.MethodType(self._func, ref(parent))
-		# save as weak ref to prevent circular strong reference
-		#self._func = WeakMethod(self._func)()
+		self._parent = ref(parent)
 
 	def __str__(self):
 		return "{} @ {} s interval".format(self._func, self.interval)
 
 	def __call__(self, *args, **kwargs):
-		self._func(*args, **kwargs)
+		self._func(self._parent(), *args, **kwargs)
 
 
 class _MainLoopThread(threading.Thread):
