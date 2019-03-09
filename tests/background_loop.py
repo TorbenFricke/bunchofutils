@@ -4,12 +4,13 @@ from time import time, sleep
 import gc
 
 
-verbose = True
+_has_gone_boom = False
 
-class TestClass(BackgroundLoop):
-	def __init__(self):
+class LoopTestClass(BackgroundLoop):
+	def __init__(self, verbose=True):
 		self.lines = []
 		self.t0 = time()
+		self.verbose = verbose
 		# be sure, to initialize super class!
 		BackgroundLoop.__init__(self)
 
@@ -18,10 +19,11 @@ class TestClass(BackgroundLoop):
 		if txt:
 			s += "{} - ".format(txt)
 		s += "{:.1f} s elapsed".format(time() - self.t0)
-		if verbose:
+		if self.verbose:
 			print(s)
 		self.lines.append(s)
 
+class BoopTestClass(LoopTestClass):
 
 	@BackgroundLoop.loop(seconds=1)
 	def boop(self):
@@ -33,11 +35,16 @@ class TestClass(BackgroundLoop):
 		sleep(.2)
 		self.print_time("beep ended" + txt)
 
+	@BackgroundLoop.loop(seconds=8)
+	def boom(self):
+		global _has_gone_boom
+		_has_gone_boom = True
+
 
 class BackgroundTest(unittest.TestCase):
 
-	def test_(self):
-		test = TestClass()
+	def test_execution_order(self):
+		test = BoopTestClass()
 		sleep(.5)
 		# calling function manually
 		test.boop()
@@ -53,5 +60,9 @@ class BackgroundTest(unittest.TestCase):
 		         'boop - 7.4 s elapsed']
 		for l1, l2 in zip(test.lines, lines):
 			self.assertEqual(l1, l2)
-
+		# delete class
 		del test
+
+		# will raise an error, if the Background loop continues to run.
+		sleep(2)
+		self.assertFalse(_has_gone_boom)
