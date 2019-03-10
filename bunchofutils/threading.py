@@ -5,12 +5,12 @@ from weakref import WeakMethod, ref
 
 
 class loop_function(object):
-	def __init__(self, func, interval=1., parent=None):
+	def __init__(self, func, interval: int=1, parent=None):
 		if not callable(func):
 			raise TypeError("input function not callable")
 		self._func = func
 		self._parent = None
-		self.interval = interval
+		self.interval = int(interval)
 
 	def set_parent(self, parent):
 		self._parent = ref(parent)
@@ -25,12 +25,12 @@ class loop_function(object):
 class _MainLoopThread(threading.Thread):
 	def __init__(self, functions, parent):
 		threading.Thread.__init__(self)
+		self._i = 0
 		self.loop_functions = functions
 		self.daemon = True
 		self.parent = ref(parent)
 
 	def run(self):
-		i = 0
 		if not self.loop_functions:
 			return
 		while True:
@@ -38,10 +38,9 @@ class _MainLoopThread(threading.Thread):
 			# make sure parent is still alive
 			if not self.parent():
 				return
-
-			i += 1
+			self._i += 1
 			for f in self.loop_functions:
-				if i % f.interval != 0:
+				if self._i % f.interval != 0:
 					continue
 				try:
 					f()
